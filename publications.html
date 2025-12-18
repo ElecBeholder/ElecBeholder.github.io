@@ -91,6 +91,10 @@
                   <div class="periodical">
                     <em>In preparation</em>, 2025
                   </div>
+
+                  <div class="links">
+                    <a href="javascript:void(0)" class="btn btn-sm z-depth-0" role="button" onclick="openPdfViewer('papers/egoeverything2025/egoeverything.pdf')">PDF</a>
+                  </div>
                   
                   <!-- Paper Figures -->
                   <div class="paper-figures mt-3">
@@ -108,7 +112,11 @@
                   </div>
 
                   <div class="periodical">
-                    <em>In submission to CVPR</em>, 2025
+                    <em>In submission to CVPR</em>, 2026
+                  </div>
+
+                  <div class="links">
+                    <a href="javascript:void(0)" class="btn btn-sm z-depth-0" role="button" onclick="openPdfViewer('papers/utopi2025/UTOPIAR.pdf')">PDF</a>
                   </div>
                   
                   <!-- Paper Figures -->
@@ -128,10 +136,11 @@
                   </div>
 
                   <div class="periodical">
-                    <em>In submission to CVPR</em>, 2025
+                    <em>In submission to CVPR</em>, 2026
                   </div>
 
                   <div class="links">
+                    <a href="javascript:void(0)" class="btn btn-sm z-depth-0" role="button" onclick="openPdfViewer('papers/fosam2025/FoSAM.pdf')">PDF</a>
                     <a href="https://anonymous.4open.science/w/FoSAM-D627/" class="btn btn-sm z-depth-0" role="button" rel="external nofollow noopener" target="_blank">Web</a>
                   </div>
                   
@@ -208,6 +217,14 @@
     <div id="lightbox" class="lightbox" onclick="closeLightbox()">
       <span class="lightbox-close">&times;</span>
       <img id="lightbox-img" class="lightbox-content" src="" alt="">
+    </div>
+
+    <!-- PDF Viewer -->
+    <div id="pdf-viewer" class="pdf-viewer">
+      <span class="pdf-viewer-close">&times;</span>
+      <div class="pdf-viewer-container">
+        <iframe id="pdf-iframe" src="" frameborder="0"></iframe>
+      </div>
     </div>
 
     <!-- Footer -->
@@ -348,7 +365,52 @@
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
           closeLightbox();
+          closePdfViewer();
         }
+      });
+    </script>
+
+    <!-- PDF Viewer Script -->
+    <script>
+      function openPdfViewer(pdfPath) {
+        const pdfViewer = document.getElementById('pdf-viewer');
+        const pdfIframe = document.getElementById('pdf-iframe');
+        pdfIframe.src = pdfPath;
+        pdfViewer.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closePdfViewer() {
+        const pdfViewer = document.getElementById('pdf-viewer');
+        const pdfIframe = document.getElementById('pdf-iframe');
+        pdfViewer.classList.remove('active');
+        pdfIframe.src = '';
+        document.body.style.overflow = 'auto';
+      }
+
+      // Setup PDF viewer event listeners
+      document.addEventListener('DOMContentLoaded', function() {
+        const pdfViewer = document.getElementById('pdf-viewer');
+        const pdfContainer = document.querySelector('.pdf-viewer-container');
+        const closeBtn = document.querySelector('.pdf-viewer-close');
+
+        // Close when clicking outside the PDF container
+        pdfViewer.addEventListener('click', function(e) {
+          if (e.target === pdfViewer) {
+            closePdfViewer();
+          }
+        });
+
+        // Close when clicking the close button
+        closeBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          closePdfViewer();
+        });
+
+        // Prevent closing when clicking inside the PDF container
+        pdfContainer.addEventListener('click', function(e) {
+          e.stopPropagation();
+        });
       });
     </script>
   </body>
